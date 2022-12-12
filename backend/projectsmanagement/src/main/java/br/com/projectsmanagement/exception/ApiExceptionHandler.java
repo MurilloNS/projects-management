@@ -19,4 +19,13 @@ public class ApiExceptionHandler {
 				request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(EmailExistException.class)
+	public ResponseEntity<StandardError> AlreadyExist(EmailExistException e, HttpServletRequest request) {
+		String error = "Esse item já está cadastrado!";
+		HttpStatus status = HttpStatus.FORBIDDEN;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+				request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
 }

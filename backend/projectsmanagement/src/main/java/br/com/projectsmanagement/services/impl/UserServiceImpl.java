@@ -9,6 +9,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.projectsmanagement.entities.User;
+import br.com.projectsmanagement.exception.EmailExistException;
 import br.com.projectsmanagement.exception.InvalidIdException;
 import br.com.projectsmanagement.repositories.UserRepository;
 import br.com.projectsmanagement.services.UserService;
@@ -25,8 +26,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User registerUser(User user) {
-		user.setDataCadastro(new Date());
-		return userRepository.saveAndFlush(user);
+		try {
+			if (findUserByEmail(user) == null) {
+				user.setDataCadastro(new Date());
+				return userRepository.saveAndFlush(user);
+			}
+			
+			return user;
+		} catch (ClassCastException e) {
+			throw new EmailExistException("Esse e-mail já está cadastrado!");
+		}
 	}
 
 	@Override
@@ -49,5 +58,14 @@ public class UserServiceImpl implements UserService {
 		} catch (EmptyResultDataAccessException e) {
 			throw new InvalidIdException("Esse usuário já não existe!");
 		}
+	}
+
+	private User findUserByEmail(User user) {
+		User userEmail = userRepository.findByEmail(user.getEmail());
+		if (userEmail != null) {
+			return userEmail;
+		}
+
+		return null;
 	}
 }
