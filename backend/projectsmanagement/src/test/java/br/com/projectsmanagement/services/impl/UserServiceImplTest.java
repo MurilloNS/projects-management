@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
@@ -14,7 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -51,7 +52,7 @@ class UserServiceImplTest {
 
 	@Test
 	void whenFindByIdThenReturnAnUserInstance() {
-		when(userRepository.findById(Mockito.anyLong())).thenReturn(optionalUser);
+		when(userRepository.findById(anyLong())).thenReturn(optionalUser);
 
 		Optional<User> response = userServiceImpl.getUserById(1L);
 
@@ -61,8 +62,14 @@ class UserServiceImplTest {
 	}
 
 	@Test
-	void testRegisterUser() {
-		fail("Not yet implemented");
+	void whenRegisterThenReturnSuccess() {
+		when(userRepository.saveAndFlush(any())).thenReturn(user);
+
+		User response = userServiceImpl.registerUser(user);
+
+		assertNotNull(response);
+		assertEquals(User.class, response.getClass());
+		assertEquals(user.getName(), "Valdir");
 	}
 
 	@Test
