@@ -1,6 +1,7 @@
 package br.com.projectsmanagement.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,11 @@ public class UserController {
 	@GetMapping("/listar")
 	public ResponseEntity<List<User>> listUsers() {
 		return ResponseEntity.ok(userService.listUsers());
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Optional<User>> getUserById(@PathVariable Long id) {
+		return ResponseEntity.ok(userService.getUserById(id));
 	}
 
 	@PostMapping("/cadastrar")
