@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
@@ -20,6 +21,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.projectsmanagement.entities.User;
+import br.com.projectsmanagement.exception.EmailExistException;
 import br.com.projectsmanagement.repositories.UserRepository;
 
 @SpringBootTest
@@ -64,6 +66,24 @@ class UserServiceImplTest {
 	@Test
 	void whenRegisterThenReturnSuccess() {
 		when(userRepository.saveAndFlush(any())).thenReturn(user);
+
+		User response = userServiceImpl.registerUser(user);
+
+		assertNotNull(response);
+		assertEquals(User.class, response.getClass());
+		assertEquals(user.getName(), "Valdir");
+	}
+
+	@Test
+	void whenRegisterThenReturnAnEmailExistException() {
+		when(userRepository.findByEmail(anyString())).thenReturn(user);
+
+		try {
+			userServiceImpl.registerUser(user);
+		} catch (ClassCastException e) {
+			assertEquals(EmailExistException.class, e.getClass());
+			assertEquals("Esse e-mail já está cadastrado!", e.getMessage());
+		}
 
 		User response = userServiceImpl.registerUser(user);
 
