@@ -2,6 +2,7 @@ package br.com.projectsmanagement.controllers;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.standaloneSetup;
+import static org.mockito.Mockito.when;
 
 import java.util.Date;
 import java.util.Optional;
@@ -26,15 +27,22 @@ class UserControllerTest {
 	@MockBean
 	private UserService userService;
 
+	private Optional<User> optionalUser;
+
 	@BeforeEach
 	public void setup() {
 		standaloneSetup(this.userController);
+		startUser();
 	}
 
 	@Test
-	public void shallReturnSuccess_WhenSearchUser() {
-		Mockito.<Optional<User>>when(this.userService.getUserById(1L))
-				.thenReturn(Optional.of(new User("fernando", "fernando@gmail.com", "123", new Date())));
-		given().accept(ContentType.JSON).when().get("/usuario/{id}", 4L).then().statusCode(HttpStatus.OK.value());
+	public void whenGetUserByIdThenReturnAnUserInstance() {
+		when(userService.getUserById(Mockito.anyLong())).thenReturn(optionalUser);
+
+		given().accept(ContentType.JSON).when().get("/usuario/{id}", 1L).then().statusCode(HttpStatus.OK.value());
+	}
+
+	private void startUser() {
+		optionalUser = Optional.of(new User("fernando", "fernando@gmail.com", "123", new Date()));
 	}
 }

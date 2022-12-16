@@ -2,9 +2,12 @@ package br.com.projectsmanagement.services.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.when;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -36,19 +39,25 @@ class UserServiceImplTest {
 	}
 
 	@Test
-	void testListUsers() {
-		fail("Not yet implemented");
+	void whenFindAllThenReturnAnListofUsers() {
+		when(userRepository.findAll()).thenReturn(List.of(user));
+
+		List<User> response = userServiceImpl.listUsers();
+
+		assertNotNull(response);
+		assertEquals(1, response.size());
+		assertEquals(User.class, response.get(0).getClass());
 	}
 
 	@Test
 	void whenFindByIdThenReturnAnUserInstance() {
-		Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(optionalUser);
-		
+		when(userRepository.findById(Mockito.anyLong())).thenReturn(optionalUser);
+
 		Optional<User> response = userServiceImpl.getUserById(1L);
-		
+
 		assertThat(response).isPresent();
-		assertEquals(user, response.get());
-		assertEquals(user.getName(), "Valdir");
+		assertEquals(optionalUser.getClass(), response.getClass());
+		assertEquals(optionalUser.get().getName(), "Valdir");
 	}
 
 	@Test
