@@ -49,7 +49,6 @@ public class UserServiceImpl implements UserService {
 		try {
 			User userUpdated = userRepository.findById(id).get();
 			userUpdated.setName(user.getName());
-			userUpdated.setEmail(user.getEmail());
 			userUpdated.setPassword(user.getPassword());
 			return userRepository.saveAndFlush(userUpdated);
 		} catch (NoSuchElementException e) {
