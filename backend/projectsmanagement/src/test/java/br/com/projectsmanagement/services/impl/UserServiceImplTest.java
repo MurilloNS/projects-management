@@ -3,22 +3,29 @@ package br.com.projectsmanagement.services.impl;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.projectsmanagement.entities.User;
+import br.com.projectsmanagement.exception.EmailExistException;
+import br.com.projectsmanagement.exception.InvalidIdException;
 import br.com.projectsmanagement.repositories.UserRepository;
 
 @SpringBootTest
@@ -51,7 +58,7 @@ class UserServiceImplTest {
 
 	@Test
 	void whenFindByIdThenReturnAnUserInstance() {
-		when(userRepository.findById(Mockito.anyLong())).thenReturn(optionalUser);
+		when(userRepository.findById(anyLong())).thenReturn(optionalUser);
 
 		Optional<User> response = userServiceImpl.getUserById(1L);
 
@@ -61,18 +68,62 @@ class UserServiceImplTest {
 	}
 
 	@Test
-	void testRegisterUser() {
-		fail("Not yet implemented");
+	void whenRegisterThenReturnSuccess() {
+		when(userRepository.saveAndFlush(any())).thenReturn(user);
+
+		User response = userServiceImpl.registerUser(user);
+
+		assertNotNull(response);
+		assertEquals(User.class, response.getClass());
+		assertEquals(user.getId(), response.getId());
 	}
 
 	@Test
-	void testUpdateUser() {
-		fail("Not yet implemented");
+	void whenRegisterThenReturnAnEmailExistException() {
+		when(userRepository.findByEmail(anyString())).thenReturn(user);
+
+		try {
+			userServiceImpl.registerUser(user);
+		} catch (ClassCastException e) {
+			assertEquals(EmailExistException.class, e.getClass());
+			assertEquals("Esse e-mail já está cadastrado!", e.getMessage());
+		}
+
+		User response = userServiceImpl.registerUser(user);
+
+		assertNotNull(response);
+		assertEquals(User.class, response.getClass());
+		assertEquals(user.getId(), response.getId());
 	}
 
 	@Test
-	void testDeleteUser() {
-		fail("Not yet implemented");
+	void whenUpdateThenReturnSuccess() {
+		when(userRepository.findById(anyLong())).thenReturn(optionalUser);
+
+		userServiceImpl.updateUser(1L, user);
+
+		verify(userRepository, times(1)).saveAndFlush(any());
+	}
+
+	@Test
+	void whenDeleteThenReturnSuccess() {
+		when(userRepository.findById(anyLong())).thenReturn(optionalUser);
+		doNothing().when(userRepository).deleteById(anyLong());
+
+		userServiceImpl.deleteUser(1L);
+
+		verify(userRepository, times(1)).deleteById(anyLong());
+	}
+
+	@Test
+	void whenDeleteThenReturnInvalidIdException() {
+		when(userRepository.findById(anyLong())).thenThrow(new NoSuchElementException());
+		try {
+			userServiceImpl.deleteUser(1L);
+		} catch (NoSuchElementException e) {
+			assertEquals(InvalidIdException.class, e.getClass());
+			assertEquals("Esse usuário já não existe!", e.getMessage());
+		}
 	}
 
 	private void startUser() {
