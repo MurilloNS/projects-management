@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import br.com.projectsmanagement.entities.User;
@@ -38,8 +40,17 @@ class UserControllerTest {
 	}
 
 	@Test
-	void testListUsers() {
-		fail("Not yet implemented");
+	void whenFindAllThenReturnAListofUsers() {
+		when(userServiceImpl.listUsers()).thenReturn(List.of(user));
+
+		ResponseEntity<List<User>> response = userController.listUsers();
+
+		assertNotNull(response);
+		assertNotNull(response.getBody());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(User.class, response.getBody().get(0).getClass());
+		assertEquals(user.getId(), response.getBody().get(0).getId());
 	}
 
 	@Test
@@ -50,6 +61,7 @@ class UserControllerTest {
 
 		assertNotNull(response);
 		assertNotNull(response.getBody());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(ResponseEntity.class, response.getClass());
 		assertEquals(optionalUser.getClass(), response.getBody().getClass());
 		assertEquals(optionalUser.get().getId(), response.getBody().get().getId());
