@@ -79,8 +79,17 @@ class UserControllerTest {
 	}
 
 	@Test
-	void testUpdateUser() {
-		fail("Not yet implemented");
+	void whenUpdateThenReturnSuccess() {
+		when(userServiceImpl.updateUser(1L, user)).thenReturn(user);
+
+		ResponseEntity<User> response = userController.updateUser(1L, user);
+
+		assertNotNull(response);
+		assertNotNull(response.getBody());
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(User.class, response.getBody().getClass());
+		assertEquals(user.getId(), response.getBody().getId());
 	}
 
 	@Test
