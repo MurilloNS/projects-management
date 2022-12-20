@@ -3,6 +3,7 @@ package br.com.projectsmanagement.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -68,8 +69,13 @@ class UserControllerTest {
 	}
 
 	@Test
-	void testRegisterUser() {
-		fail("Not yet implemented");
+	void whenRegisterThenReturnCreated() {
+		when(userServiceImpl.registerUser(any())).thenReturn(user);
+
+		ResponseEntity<User> response = userController.registerUser(user);
+
+		assertEquals(ResponseEntity.class, response.getClass());
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 	}
 
 	@Test
