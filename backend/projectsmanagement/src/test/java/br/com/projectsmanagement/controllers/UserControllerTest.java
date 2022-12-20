@@ -2,9 +2,13 @@ package br.com.projectsmanagement.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
@@ -93,8 +97,15 @@ class UserControllerTest {
 	}
 
 	@Test
-	void testDeleteUser() {
-		fail("Not yet implemented");
+	void whenDeleteThenReturnSuccess() {
+		doNothing().when(userServiceImpl).deleteUser(anyLong());
+
+		ResponseEntity<Void> response = userController.deleteUser(1L);
+
+		assertNotNull(response);
+		assertEquals(ResponseEntity.class, response.getClass());
+		verify(userServiceImpl, times(1)).deleteUser(anyLong());
+		assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 	}
 
 	private void startUser() {

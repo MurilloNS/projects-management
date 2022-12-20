@@ -104,11 +104,6 @@ class UserServiceImplTest {
 
 		verify(userRepository, times(1)).saveAndFlush(any());
 	}
-	
-	@Test
-	void whenUpdateThenReturnInvalidIdException() {
-		
-	}
 
 	@Test
 	void whenDeleteThenReturnSuccess() {
