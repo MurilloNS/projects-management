@@ -1,6 +1,7 @@
 import { NavLink as Link } from "react-router-dom";
 import styled from "styled-components";
 import { FiLogOut } from "react-icons/fi";
+import { BsList, BsXLg } from "react-icons/bs";
 
 export const DivNavbar = styled.div`
   height: 4em;
@@ -26,6 +27,10 @@ export const TextLogo = styled(Link)`
   font-weight: bold;
   margin-right: 4rem;
   text-decoration: none;
+
+  @media screen and (max-width: 370px){
+    font-size: 1em;
+  }
 `;
 
 export const DivMenu = styled.div`
@@ -34,6 +39,19 @@ export const DivMenu = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @media screen and (max-width: 900px) {
+    position: fixed;
+    top: 7vh;
+    right: 0;
+    width: 50%;
+    height: 93vh;
+    background-color: #1c2833;
+    flex-direction: column;
+    transform: ${(props) =>
+      props.show ? "translateX(0)" : "translateX(100%)"};
+    transition: 0.3s;
+  }
 `;
 
 export const NavLink = styled(Link)`
@@ -45,6 +63,11 @@ export const NavLink = styled(Link)`
   &.active {
     color: #f39c12;
   }
+
+  @media screen and (max-width: 900px) {
+    margin-top: 2vh;
+    padding-left: 0;
+  }
 `;
 
 export const Profile = styled(FiLogOut)`
@@ -52,4 +75,44 @@ export const Profile = styled(FiLogOut)`
   width: 1.8em;
   color: #ffffff;
   cursor: pointer;
+
+  @media screen and (max-width: 900px){
+    margin-left: -1em;
+    margin-bottom: 1.5em;
+  }
+`;
+
+export const NavToggler = styled(BsList)`
+  color: #fff;
+  height: 2rem;
+  width: 2rem;
+  cursor: pointer;
+  display: none;
+
+  @media screen and (max-width: 900px) {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 75%);
+    cursor: pointer;
+    margin-top: -0.5em;
+  }
+`;
+
+export const NavTogglerClose = styled(BsXLg)`
+  color: #fff;
+  height: 1.4rem;
+  width: 1.4rem;
+  cursor: pointer;
+  display: none;
+
+  @media screen and (max-width: 900px) {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-170%, 125%);
+    cursor: pointer;
+  }
 `;
