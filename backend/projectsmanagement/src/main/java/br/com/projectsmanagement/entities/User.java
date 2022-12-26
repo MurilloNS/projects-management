@@ -1,9 +1,8 @@
 package br.com.projectsmanagement.entities;
 
 import java.util.Date;
-import java.util.Objects;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_users")
@@ -15,16 +14,16 @@ public class User {
 	private String email;
 	private String password;
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCadastro;
+	private Date dateRegister;
 
 	public User() {
 	}
 
-	public User(String name, String email, String password, Date dataCadastro) {
+	public User(String name, String email, String password, Date dateRegister) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.dataCadastro = dataCadastro;
+		this.dateRegister = dateRegister;
 	}
 
 	public Long getId() {
@@ -59,28 +58,11 @@ public class User {
 		this.password = password;
 	}
 
-	public Date getDataCadastro() {
-		return dataCadastro;
+	public Date getDateRegister() {
+		return dateRegister;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		return Objects.equals(id, other.id);
+	public void setDateRegister(Date dateRegister) {
+		this.dateRegister = dateRegister;
 	}
 }

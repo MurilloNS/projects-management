@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import br.com.projectsmanagement.dto.UserDto;
 import br.com.projectsmanagement.entities.User;
+import br.com.projectsmanagement.jwt.Token;
 import br.com.projectsmanagement.services.UserService;
 
 @RestController
@@ -41,5 +43,14 @@ public class UserController {
 	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 		userService.deleteUser(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<Token> login(@RequestBody UserDto user) {
+		Token token = userService.gerarToken(user);
+		if (token != null) {
+			return ResponseEntity.ok(token);
+		}
+		return ResponseEntity.status(403).build();
 	}
 }
