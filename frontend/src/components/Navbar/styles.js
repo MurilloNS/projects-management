@@ -11,6 +11,7 @@ export const DivNavbar = styled.div`
   justify-content: center;
   align-items: center;
   padding-right: 3em;
+  position: fixed;
 `;
 
 export const Menu = styled.div`

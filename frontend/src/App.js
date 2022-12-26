@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
+import LoginRegister from "./pages/LoginRegister";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/newproject" element={<NewProject />} />
+        <Route path="/login" element={<LoginRegister />} />
       </Routes>
     </BrowserRouter>
   );

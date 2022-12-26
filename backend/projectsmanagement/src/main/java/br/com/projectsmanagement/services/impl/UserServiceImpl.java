@@ -7,11 +7,16 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.projectsmanagement.dto.UserDto;
 import br.com.projectsmanagement.entities.User;
 import br.com.projectsmanagement.exception.EmailExistException;
 import br.com.projectsmanagement.exception.InvalidIdException;
+import br.com.projectsmanagement.jwt.Token;
+import br.com.projectsmanagement.jwt.TokenUtil;
 import br.com.projectsmanagement.repositories.UserRepository;
 import br.com.projectsmanagement.services.UserService;
 
@@ -19,6 +24,12 @@ import br.com.projectsmanagement.services.UserService;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
+
+	private PasswordEncoder passwordEncoder;
+
+	public UserServiceImpl() {
+		this.passwordEncoder = new BCryptPasswordEncoder();
+	}
 
 	@Override
 	public List<User> listUsers() {
@@ -33,8 +44,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User registerUser(User user) {
 		try {
-			if (findUserByEmail(user) == null) {
-				user.setDataCadastro(new Date());
+			if (userRepository.findByEmail(user.getEmail()) == null) {
+				user.setDateRegister(new Date());
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
 				return userRepository.saveAndFlush(user);
 			}
 
@@ -49,7 +61,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			User userUpdated = userRepository.findById(id).get();
 			userUpdated.setName(user.getName());
-			userUpdated.setPassword(user.getPassword());
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			return userRepository.saveAndFlush(userUpdated);
 		} catch (NoSuchElementException e) {
 			throw new InvalidIdException("Usuário não encontrado!");
@@ -65,10 +77,21 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	private User findUserByEmail(User user) {
+	@Override
+	public Boolean validatePass(User user) {
+		String pass = userRepository.getReferenceById(user.getId()).getPassword();
+		Boolean valid = passwordEncoder.matches(user.getPassword(), pass);
+		return valid;
+	}
+
+	@Override
+	public Token gerarToken(UserDto user) {
 		User userEmail = userRepository.findByEmail(user.getEmail());
-		if (userEmail != null) {
-			return userEmail;
+		if (user != null) {
+			Boolean valid = passwordEncoder.matches(user.getPassword(), userEmail.getPassword());
+			if (valid) {
+				return new Token(TokenUtil.createToken(userEmail));
+			}
 		}
 
 		return null;
