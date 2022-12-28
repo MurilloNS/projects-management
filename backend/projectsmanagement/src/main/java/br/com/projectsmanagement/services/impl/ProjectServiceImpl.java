@@ -1,8 +1,15 @@
 package br.com.projectsmanagement.services.impl;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import br.com.projectsmanagement.entities.Project;
+import br.com.projectsmanagement.exception.InvalidIdException;
 import br.com.projectsmanagement.repositories.ProjectRepository;
 import br.com.projectsmanagement.services.ProjectService;
 
@@ -10,4 +17,40 @@ import br.com.projectsmanagement.services.ProjectService;
 public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	private ProjectRepository projectRepository;
+
+	@Override
+	public List<Project> listAll() {
+		return projectRepository.findAll();
+	}
+
+	@Override
+	public Optional<Project> getProjectById(Long id) {
+		return projectRepository.findById(id);
+	}
+
+	@Override
+	public Project registerProject(Project project) {
+		return projectRepository.saveAndFlush(project);
+	}
+
+	@Override
+	public Project updateProject(Long id, Project project) {
+		try {
+			Project projectUpdated = projectRepository.findById(id).get();
+			projectUpdated.setName(project.getName());
+			projectUpdated.setDescription(project.getDescription());
+			return projectRepository.saveAndFlush(projectUpdated);
+		} catch (NoSuchElementException e) {
+			throw new InvalidIdException("Projeto não encontrado!");
+		}
+	}
+
+	@Override
+	public void deleteProject(Long id) {
+		try {
+			projectRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new InvalidIdException("Esse projeto já não existe!");
+		}
+	}
 }
