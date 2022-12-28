@@ -11,12 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.projectsmanagement.dto.UserDto;
 import br.com.projectsmanagement.entities.User;
 import br.com.projectsmanagement.exception.EmailExistException;
 import br.com.projectsmanagement.exception.InvalidIdException;
-import br.com.projectsmanagement.jwt.Token;
-import br.com.projectsmanagement.jwt.TokenUtil;
 import br.com.projectsmanagement.repositories.UserRepository;
 import br.com.projectsmanagement.services.UserService;
 
@@ -82,18 +79,5 @@ public class UserServiceImpl implements UserService {
 		String pass = userRepository.getReferenceById(user.getId()).getPassword();
 		Boolean valid = passwordEncoder.matches(user.getPassword(), pass);
 		return valid;
-	}
-
-	@Override
-	public Token gerarToken(UserDto user) {
-		User userEmail = userRepository.findByEmail(user.getEmail());
-		if (user != null) {
-			Boolean valid = passwordEncoder.matches(user.getPassword(), userEmail.getPassword());
-			if (valid) {
-				return new Token(TokenUtil.createToken(userEmail));
-			}
-		}
-
-		return null;
 	}
 }
