@@ -3,6 +3,7 @@ package br.com.projectsmanagement.services;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.projectsmanagement.entities.Project;
 import br.com.projectsmanagement.entities.User;
 
 public interface UserService {
@@ -17,4 +18,6 @@ public interface UserService {
 	public void deleteUser(Long id);
 
 	public Boolean validatePass(User user);
+
+	public User assignProjectToUser(Long userId, Project project);
 }

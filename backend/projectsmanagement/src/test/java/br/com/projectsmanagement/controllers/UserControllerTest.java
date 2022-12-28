@@ -107,7 +107,7 @@ class UserControllerTest {
 	}
 
 	private void startUser() {
-		user = new User("Valdir", "valdir@gmail.com", "123456", new Date());
-		optionalUser = Optional.of(new User("Valdir", "valdir@gmail.com", "123456", new Date()));
+		user = new User("Valdir", "valdir@gmail.com", "123456", new Date(), null);
+		optionalUser = Optional.of(new User("Valdir", "valdir@gmail.com", "123456", new Date(), null));
 	}
 }
