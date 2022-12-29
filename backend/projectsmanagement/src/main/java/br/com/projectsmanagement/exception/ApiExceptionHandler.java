@@ -28,4 +28,13 @@ public class ApiExceptionHandler {
 				request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(NotFinalizedException.class)
+	public ResponseEntity<StandardError> NotFinalized(NotFinalizedException e, HttpServletRequest request) {
+		String error = "Solicitação negada!";
+		HttpStatus status = HttpStatus.METHOD_NOT_ALLOWED;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+				request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
 }

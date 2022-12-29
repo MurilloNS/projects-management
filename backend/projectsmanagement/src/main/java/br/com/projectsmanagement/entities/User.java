@@ -17,6 +17,7 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateRegister;
 	@OneToMany
+	@JoinColumn(name = "id_user")
 	private List<Project> projects;
 
 	public User() {

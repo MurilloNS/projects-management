@@ -5,11 +5,11 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.projectsmanagement.entities.Project;
 import br.com.projectsmanagement.exception.InvalidIdException;
+import br.com.projectsmanagement.exception.NotFinalizedException;
 import br.com.projectsmanagement.repositories.ProjectRepository;
 import br.com.projectsmanagement.services.ProjectService;
 
@@ -47,10 +47,11 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public void deleteProject(Long id) {
-		try {
+		Project project = projectRepository.findById(id).get();
+		if (project.getFinalDate() != null) {
 			projectRepository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
-			throw new InvalidIdException("Esse projeto já não existe!");
+		} else {
+			throw new NotFinalizedException("Você não pode deletar um projeto antes de finalizá-lo");
 		}
 	}
 }
