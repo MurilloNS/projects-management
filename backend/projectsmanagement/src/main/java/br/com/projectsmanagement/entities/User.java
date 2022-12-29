@@ -1,6 +1,7 @@
 package br.com.projectsmanagement.entities;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -15,15 +16,19 @@ public class User {
 	private String password;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateRegister;
+	@OneToMany
+	@JoinColumn(name = "id_user")
+	private List<Project> projects;
 
 	public User() {
 	}
 
-	public User(String name, String email, String password, Date dateRegister) {
+	public User(String name, String email, String password, Date dateRegister, List<Project> projects) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.dateRegister = dateRegister;
+		this.projects = projects;
 	}
 
 	public Long getId() {
@@ -64,5 +69,17 @@ public class User {
 
 	public void setDateRegister(Date dateRegister) {
 		this.dateRegister = dateRegister;
+	}
+
+	public List<Project> getProject() {
+		return projects;
+	}
+
+	public void addProject(Project projects) {
+		this.projects.add(projects);
+	}
+
+	public void removeProject(Project projects) {
+		this.projects.remove(projects);
 	}
 }

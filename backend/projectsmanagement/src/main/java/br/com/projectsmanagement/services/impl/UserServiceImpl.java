@@ -11,9 +11,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.projectsmanagement.entities.Project;
 import br.com.projectsmanagement.entities.User;
 import br.com.projectsmanagement.exception.EmailExistException;
 import br.com.projectsmanagement.exception.InvalidIdException;
+import br.com.projectsmanagement.repositories.ProjectRepository;
 import br.com.projectsmanagement.repositories.UserRepository;
 import br.com.projectsmanagement.services.UserService;
 
@@ -21,6 +23,9 @@ import br.com.projectsmanagement.services.UserService;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ProjectRepository projectRepository;
 
 	private PasswordEncoder passwordEncoder;
 
@@ -79,5 +84,21 @@ public class UserServiceImpl implements UserService {
 		String pass = userRepository.getReferenceById(user.getId()).getPassword();
 		Boolean valid = passwordEncoder.matches(user.getPassword(), pass);
 		return valid;
+	}
+
+	@Override
+	public User assignProjectToUser(Long id, Project project) {
+		User user = userRepository.findById(id).get();
+		Project projectCreated = projectRepository.saveAndFlush(project);
+		user.addProject(projectCreated);
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User finalizeProjectUser(Long userId, Long projectId) {
+		User user = userRepository.findById(userId).get();
+		Project project = projectRepository.findById(projectId).get();
+		project.setFinalDate(new Date());
+		return userRepository.save(user);
 	}
 }
