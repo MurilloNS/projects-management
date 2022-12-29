@@ -20,4 +20,6 @@ public interface UserService {
 	public Boolean validatePass(User user);
 
 	public User assignProjectToUser(Long userId, Project project);
+
+	public User finalizeProjectUser(Long userId, Long projectId);
 }

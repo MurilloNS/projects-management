@@ -93,4 +93,12 @@ public class UserServiceImpl implements UserService {
 		user.addProject(projectCreated);
 		return userRepository.save(user);
 	}
+
+	@Override
+	public User finalizeProjectUser(Long userId, Long projectId) {
+		User user = userRepository.findById(userId).get();
+		Project project = projectRepository.findById(projectId).get();
+		project.setFinalDate(new Date());
+		return userRepository.save(user);
+	}
 }

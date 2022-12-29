@@ -44,8 +44,13 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@PutMapping("/{id}/addproject")
+	@PostMapping("/{id}/addproject")
 	public ResponseEntity<User> assignProjectToUser(@PathVariable Long id, @RequestBody Project project) {
 		return ResponseEntity.ok(userService.assignProjectToUser(id, project));
+	}
+
+	@PutMapping("/{userId}/removeproject/{projectId}")
+	public ResponseEntity<User> removeProjectUser(@PathVariable Long userId, @PathVariable Long projectId) {
+		return ResponseEntity.ok(userService.finalizeProjectUser(userId, projectId));
 	}
 }
