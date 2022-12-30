@@ -20,7 +20,7 @@ export const Box = styled.div`
   justify-content: space-between;
 `;
 
-export const BoxLogin = styled.div`
+export const BoxLogin = styled.form`
   height: 100%;
   width: 45%;
   display: flex;

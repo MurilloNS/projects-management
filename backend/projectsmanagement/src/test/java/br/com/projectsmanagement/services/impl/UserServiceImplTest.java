@@ -36,7 +36,7 @@ class UserServiceImplTest {
 	@Mock
 	private UserRepository userRepository;
 
-	private User user;
+	private user;
 	private Optional<User> optionalUser;
 
 	@BeforeEach
