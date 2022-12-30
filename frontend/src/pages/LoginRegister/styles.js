@@ -20,7 +20,7 @@ export const Box = styled.div`
   justify-content: space-between;
 `;
 
-export const BoxLogin = styled.div`
+export const BoxLogin = styled.form`
   height: 100%;
   width: 45%;
   display: flex;
@@ -91,4 +91,8 @@ export const Divisor = styled.div`
 
 export const DivisorRegister = styled.div`
   margin-bottom: 2.7em;
+`;
+
+export const Span = styled.span`
+  color: red;
 `;
