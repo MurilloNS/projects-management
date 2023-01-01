@@ -92,3 +92,7 @@ export const Divisor = styled.div`
 export const DivisorRegister = styled.div`
   margin-bottom: 2.7em;
 `;
+
+export const Span = styled.span`
+  color: red;
+`;
