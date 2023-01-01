@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 
 export default function LoginRegister() {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
+
   const [emptyValue, setEmptyValue] = useState(false);
   const emptyValues = Object.values(user).some((obj) => obj === "");
 
@@ -50,6 +51,22 @@ export default function LoginRegister() {
           });
         });
     }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    http.post("/usuario/cadastrar", user).then((result) => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Usuário cadastrado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }).catch((e) => {
+      Swal.fire({
+        icon: 'error',
+        text: e.response.data.message,
+      })
+    });
   };
 
   return (
