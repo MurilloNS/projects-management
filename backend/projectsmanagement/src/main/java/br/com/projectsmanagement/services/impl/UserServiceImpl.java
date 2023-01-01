@@ -11,10 +11,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.projectsmanagement.entities.Paper;
 import br.com.projectsmanagement.entities.Project;
 import br.com.projectsmanagement.entities.User;
 import br.com.projectsmanagement.exception.EmailExistException;
 import br.com.projectsmanagement.exception.InvalidIdException;
+import br.com.projectsmanagement.repositories.PaperRepository;
 import br.com.projectsmanagement.repositories.ProjectRepository;
 import br.com.projectsmanagement.repositories.UserRepository;
 import br.com.projectsmanagement.services.UserService;
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ProjectRepository projectRepository;
+	
+	@Autowired
+	private PaperRepository paperRepository;
 
 	private PasswordEncoder passwordEncoder;
 
@@ -45,11 +50,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User registerUser(User user) {
+		Paper paper = paperRepository.findById(1L).get();
 		try {
 			if (userRepository.findByEmail(user.getEmail()) == null) {
 				user.setDateRegister(new Date());
+				user.addPaper(paper);
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				return userRepository.saveAndFlush(user);
+				return userRepository.save(user);
 			}
 
 			return user;

@@ -1,9 +1,21 @@
 package br.com.projectsmanagement.entities;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 
 @Entity
@@ -21,16 +33,21 @@ public class User {
 	@OneToMany
 	@JoinColumn(name = "id_user")
 	private List<Project> projects;
+	@ManyToMany
+	@JoinTable(name = "user_paper", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "paper_id"))
+	private Set<Paper> papers = new HashSet<>();
 
 	public User() {
 	}
 
-	public User(String name, String email, String password, Date dateRegister, List<Project> projects) {
+	public User(String name, @Email String email, String password, Date dateRegister, List<Project> projects,
+			Set<Paper> papers) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.dateRegister = dateRegister;
 		this.projects = projects;
+		this.papers = papers;
 	}
 
 	public Long getId() {
@@ -73,8 +90,12 @@ public class User {
 		this.dateRegister = dateRegister;
 	}
 
-	public List<Project> getProject() {
+	public List<Project> getProjects() {
 		return projects;
+	}
+
+	public Set<Paper> getPapers() {
+		return papers;
 	}
 
 	public void addProject(Project projects) {
@@ -83,5 +104,13 @@ public class User {
 
 	public void removeProject(Project projects) {
 		this.projects.remove(projects);
+	}
+
+	public void addPaper(Paper papers) {
+		this.papers.add(papers);
+	}
+
+	public void removePaper(Paper papers) {
+		this.papers.remove(papers);
 	}
 }
