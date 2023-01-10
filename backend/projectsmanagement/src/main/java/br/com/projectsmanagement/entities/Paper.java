@@ -1,14 +1,14 @@
 package br.com.projectsmanagement.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "tb_papers")
-public class Paper {
+public class Paper implements GrantedAuthority {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -35,5 +35,10 @@ public class Paper {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String getAuthority() {
+		return name;
 	}
 }
