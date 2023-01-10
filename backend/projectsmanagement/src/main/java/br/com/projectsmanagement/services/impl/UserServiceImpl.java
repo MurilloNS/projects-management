@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +31,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PaperRepository paperRepository;
 
+	@Autowired
 	private PasswordEncoder passwordEncoder;
-
-	public UserServiceImpl() {
-		this.passwordEncoder = new BCryptPasswordEncoder();
-	}
 
 	@Override
 	public List<User> listUsers() {
@@ -52,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	public User registerUser(User user) {
 		Paper paper = paperRepository.findById(1L).get();
 		try {
-			if (userRepository.findByEmail(user.getEmail()) == null) {
+			if (userRepository.findUserByEmail(user.getEmail()) == null) {
 				user.setDateRegister(new Date());
 				user.addPaper(paper);
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -84,13 +80,6 @@ public class UserServiceImpl implements UserService {
 		} catch (EmptyResultDataAccessException e) {
 			throw new InvalidIdException("Esse usuário já não existe!");
 		}
-	}
-
-	@Override
-	public Boolean validatePass(User user) {
-		String pass = userRepository.getReferenceById(user.getId()).getPassword();
-		Boolean valid = passwordEncoder.matches(user.getPassword(), pass);
-		return valid;
 	}
 
 	@Override

@@ -6,16 +6,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
+import br.com.projectsmanagement.configurations.JwtUtil;
 import br.com.projectsmanagement.entities.Project;
 import br.com.projectsmanagement.entities.User;
 import br.com.projectsmanagement.services.UserService;
@@ -26,6 +23,12 @@ import br.com.projectsmanagement.services.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private JwtUtil jwtUtil;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
 	@GetMapping("/listar")
 	public ResponseEntity<List<User>> listUsers() {
@@ -61,5 +64,15 @@ public class UserController {
 	@PutMapping("/{userId}/removeproject/{projectId}")
 	public ResponseEntity<User> removeProjectUser(@PathVariable Long userId, @PathVariable Long projectId) {
 		return ResponseEntity.ok(userService.finalizeProjectUser(userId, projectId));
+	}
+
+	@PostMapping("/logar")
+	public ResponseEntity<?> login(@RequestBody User user) {
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		User result = (User) authentication.getPrincipal();
+		String token = jwtUtil.tokenUsernameGenerate(result);
+		return ResponseEntity.ok(token);
 	}
 }
