@@ -6,6 +6,7 @@ import {
   TextLogo,
   DivMenu,
   Profile,
+  User,
   NavToggler,
   NavTogglerClose,
 } from "./styles";
@@ -13,6 +14,11 @@ import {
 export default function Navbar() {
   const [active, setActive] = useState();
   const showActive = () => setActive(!active);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    window.location.reload(true);
+  };
 
   return (
     <DivNavbar>
@@ -24,9 +30,13 @@ export default function Navbar() {
           <NavLink to="/about">About Us</NavLink>
         </DivMenu>
       </Menu>
-      <NavLink disabled to="/signout">
-        <Profile />
-      </NavLink>
+      {localStorage.getItem("token") ? (
+        <Profile type="button" onClick={logout} />
+      ) : (
+        <NavLink to="/login">
+          <User />
+        </NavLink>
+      )}
       {!active ? (
         <NavToggler onClick={showActive} />
       ) : (

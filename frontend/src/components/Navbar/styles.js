@@ -1,6 +1,6 @@
 import { NavLink as Link } from "react-router-dom";
 import styled from "styled-components";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiUser } from "react-icons/fi";
 import { BsList, BsXLg } from "react-icons/bs";
 
 export const DivNavbar = styled.div`
@@ -29,7 +29,7 @@ export const TextLogo = styled(Link)`
   margin-right: 4rem;
   text-decoration: none;
 
-  @media screen and (max-width: 370px){
+  @media screen and (max-width: 370px) {
     font-size: 1em;
   }
 `;
@@ -77,9 +77,20 @@ export const Profile = styled(FiLogOut)`
   color: #ffffff;
   cursor: pointer;
 
-  @media screen and (max-width: 900px){
+  @media screen and (max-width: 900px) {
     margin-left: -1em;
-    margin-bottom: 1.5em;
+  }
+`;
+
+export const User = styled(FiUser)`
+  height: 1.8em;
+  width: 1.8em;
+  color: #ffffff;
+  cursor: pointer;
+
+  @media screen and (max-width: 900px) {
+    margin-left: -1em;
+    margin-bottom: 0.5em;
   }
 `;
 

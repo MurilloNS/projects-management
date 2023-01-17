@@ -1,6 +1,6 @@
 package br.com.projectsmanagement.services.impl;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ProjectRepository projectRepository;
-	
+
 	@Autowired
 	private PaperRepository paperRepository;
 
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 		Paper paper = paperRepository.findById(1L).get();
 		try {
 			if (userRepository.findUserByEmail(user.getEmail()) == null) {
-				user.setDateRegister(new Date());
+				user.setDateRegister(LocalDate.now());
 				user.addPaper(paper);
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
 				return userRepository.save(user);
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
 	public User finalizeProjectUser(Long userId, Long projectId) {
 		User user = userRepository.findById(userId).get();
 		Project project = projectRepository.findById(projectId).get();
-		project.setFinalDate(new Date());
+		project.setFinalDate(LocalDate.now());
 		return userRepository.save(user);
 	}
 }

@@ -1,5 +1,6 @@
 package br.com.projectsmanagement.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,6 +74,8 @@ public class UserController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		User result = (User) authentication.getPrincipal();
 		String token = jwtUtil.tokenUsernameGenerate(result);
-		return ResponseEntity.ok(token);
+		HashMap<String, String> map = new HashMap<>();
+		map.put("token", token);
+		return ResponseEntity.ok(map);
 	}
 }

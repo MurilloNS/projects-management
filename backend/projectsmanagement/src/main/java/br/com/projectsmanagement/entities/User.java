@@ -1,12 +1,21 @@
 package br.com.projectsmanagement.entities;
 
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -24,8 +33,7 @@ public class User implements UserDetails {
 	@Email
 	private String email;
 	private String password;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dateRegister;
+	private LocalDate dateRegister;
 	@OneToMany
 	@JoinColumn(name = "id_user")
 	private List<Project> projects;
@@ -36,7 +44,7 @@ public class User implements UserDetails {
 	public User() {
 	}
 
-	public User(String name, @Email String email, String password, Date dateRegister, List<Project> projects,
+	public User(String name, @Email String email, String password, LocalDate dateRegister, List<Project> projects,
 			Set<Paper> papers) {
 		this.name = name;
 		this.email = email;
@@ -78,11 +86,11 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	public Date getDateRegister() {
+	public LocalDate getDateRegister() {
 		return dateRegister;
 	}
 
-	public void setDateRegister(Date dateRegister) {
+	public void setDateRegister(LocalDate dateRegister) {
 		this.dateRegister = dateRegister;
 	}
 

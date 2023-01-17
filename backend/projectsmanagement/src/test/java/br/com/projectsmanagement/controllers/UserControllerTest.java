@@ -9,7 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -107,7 +107,7 @@ class UserControllerTest {
 	}
 
 	private void startUser() {
-		user = new User("Valdir", "valdir@gmail.com", "123456", new Date(), null, null);
-		optionalUser = Optional.of(new User("Valdir", "valdir@gmail.com", "123456", new Date(), null, null));
+		user = new User("Valdir", "valdir@gmail.com", "123456", LocalDate.now(), null, null);
+		optionalUser = Optional.of(new User("Valdir", "valdir@gmail.com", "123456", LocalDate.now(), null, null));
 	}
 }

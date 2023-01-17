@@ -29,11 +29,25 @@ export const BoxLogin = styled.form`
   padding: 1em 2em;
 `;
 
+export const Alert = styled.div`
+  height: 2rem;
+  width: 100%;
+  background-color: #e74c3c;
+  color: #fff;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 1rem 0 1rem 0;
+`;
+
 export const Title = styled.p`
   color: #212f3d;
   font-size: 2em;
   font-weight: bold;
-  margin-bottom: 3em;
+  margin-bottom: 2em;
 `;
 
 export const Input = styled.input`

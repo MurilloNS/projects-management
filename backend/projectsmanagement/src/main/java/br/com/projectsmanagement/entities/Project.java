@@ -1,8 +1,12 @@
 package br.com.projectsmanagement.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_projects")
@@ -12,15 +16,13 @@ public class Project {
 	private Long id;
 	private String name;
 	private String description;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date initialDate = new Date();
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date finalDate;
+	private LocalDate initialDate = LocalDate.now();
+	private LocalDate finalDate;
 
 	public Project() {
 	}
 
-	public Project(String name, String description, Date initialDate, Date finalDate) {
+	public Project(String name, String description, LocalDate initialDate, LocalDate finalDate) {
 		this.name = name;
 		this.description = description;
 		this.initialDate = initialDate;
@@ -51,19 +53,19 @@ public class Project {
 		this.description = description;
 	}
 
-	public Date getInitialDate() {
+	public LocalDate getInitialDate() {
 		return initialDate;
 	}
 
-	public void setInitialDate(Date initialDate) {
+	public void setInitialDate(LocalDate initialDate) {
 		this.initialDate = initialDate;
 	}
 
-	public Date getFinalDate() {
+	public LocalDate getFinalDate() {
 		return finalDate;
 	}
 
-	public void setFinalDate(Date finalDate) {
+	public void setFinalDate(LocalDate finalDate) {
 		this.finalDate = finalDate;
 	}
 }
