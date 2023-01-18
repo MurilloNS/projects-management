@@ -17,7 +17,7 @@ export default function Project() {
   return (
     <Container>
       <DivButton>
-        <StandardButton to="newproject" text="Criar Projeto" />
+        <StandardButton to="/newproject" text="Criar Projeto" />
       </DivButton>
       <ProjectsBox>
         <DivTitleBox>
