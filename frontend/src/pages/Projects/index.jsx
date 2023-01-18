@@ -8,11 +8,17 @@ import {
   DivSituation,
   Separator,
   DeleteProject,
+  DivButton,
 } from "./styles";
+
+import StandardButton from "../../components/StandardButton";
 
 export default function Project() {
   return (
     <Container>
+      <DivButton>
+        <StandardButton to="newproject" text="Criar Projeto" />
+      </DivButton>
       <ProjectsBox>
         <DivTitleBox>
           <TitleBox>Projeto de Python</TitleBox>
