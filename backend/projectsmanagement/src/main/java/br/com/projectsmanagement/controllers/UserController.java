@@ -40,6 +40,11 @@ public class UserController {
 	public ResponseEntity<Optional<User>> getUserById(@PathVariable Long id) {
 		return ResponseEntity.ok(userService.getUserById(id));
 	}
+	
+	@GetMapping("/email/{email}")
+	public ResponseEntity<User> getIdByEmail(@PathVariable String email){
+		return ResponseEntity.ok(userService.getUserByEmail(email));
+	}
 
 	@PostMapping("/cadastrar")
 	public ResponseEntity<User> registerUser(@RequestBody User user) {
@@ -76,6 +81,7 @@ public class UserController {
 		String token = jwtUtil.tokenUsernameGenerate(result);
 		HashMap<String, String> map = new HashMap<>();
 		map.put("token", token);
+		map.put("email", user.getEmail());
 		return ResponseEntity.ok(map);
 	}
 }

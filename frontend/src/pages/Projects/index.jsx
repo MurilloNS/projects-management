@@ -9,6 +9,7 @@ import {
   Separator,
   DeleteProject,
   DivButton,
+  NavLink,
 } from "./styles";
 
 import StandardButton from "../../components/StandardButton";
@@ -17,7 +18,9 @@ export default function Project() {
   return (
     <Container>
       <DivButton>
-        <StandardButton to="/newproject" text="Criar Projeto" />
+        <NavLink to="/newproject">
+          <StandardButton text="Criar Projeto" />
+        </NavLink>
       </DivButton>
       <ProjectsBox>
         <DivTitleBox>

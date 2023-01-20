@@ -43,6 +43,7 @@ export default function LoginRegister() {
     http
       .post("/usuario/logar", login)
       .then((result) => {
+        localStorage.setItem("email", result.data.email);
         autenticado(localStorage.setItem("token", result.data.token));
       })
       .catch((e) => {

@@ -19,7 +19,7 @@ public class ApiExceptionHandler {
 				request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
-	
+
 	@ExceptionHandler(EmailExistException.class)
 	public ResponseEntity<StandardError> AlreadyExist(EmailExistException e, HttpServletRequest request) {
 		String error = "Esse item já está cadastrado!";
@@ -28,11 +28,20 @@ public class ApiExceptionHandler {
 				request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
-	
+
 	@ExceptionHandler(NotFinalizedException.class)
 	public ResponseEntity<StandardError> NotFinalized(NotFinalizedException e, HttpServletRequest request) {
 		String error = "Solicitação negada!";
 		HttpStatus status = HttpStatus.METHOD_NOT_ALLOWED;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+				request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+
+	@ExceptionHandler(EmailNotExistException.class)
+	public ResponseEntity<StandardError> emailNotExist(EmailNotExistException e, HttpServletRequest request) {
+		String error = "E-mail não encontrado!";
+		HttpStatus status = HttpStatus.NOT_FOUND;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
 				request.getRequestURI());
 		return ResponseEntity.status(status).body(err);

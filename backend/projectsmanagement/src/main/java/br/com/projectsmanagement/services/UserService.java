@@ -20,4 +20,6 @@ public interface UserService {
 	public User assignProjectToUser(Long userId, Project project);
 
 	public User finalizeProjectUser(Long userId, Long projectId);
+
+	public User getUserByEmail(String email);
 }

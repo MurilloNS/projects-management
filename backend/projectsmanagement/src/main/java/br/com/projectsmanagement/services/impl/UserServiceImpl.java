@@ -14,6 +14,7 @@ import br.com.projectsmanagement.entities.Paper;
 import br.com.projectsmanagement.entities.Project;
 import br.com.projectsmanagement.entities.User;
 import br.com.projectsmanagement.exception.EmailExistException;
+import br.com.projectsmanagement.exception.EmailNotExistException;
 import br.com.projectsmanagement.exception.InvalidIdException;
 import br.com.projectsmanagement.repositories.PaperRepository;
 import br.com.projectsmanagement.repositories.ProjectRepository;
@@ -96,5 +97,15 @@ public class UserServiceImpl implements UserService {
 		Project project = projectRepository.findById(projectId).get();
 		project.setFinalDate(LocalDate.now());
 		return userRepository.save(user);
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		User user = userRepository.findByEmail(email);
+		if(user == null) {
+			throw new EmailNotExistException("Esse email não existe!");
+		}
+		
+		return user;
 	}
 }

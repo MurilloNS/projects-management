@@ -17,6 +17,8 @@ export default function Navbar() {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    localStorage.removeItem("email");
     window.location.reload(true);
   };
 

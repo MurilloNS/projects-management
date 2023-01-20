@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { NavLink as Link } from "react-router-dom";
 
-export const Button = styled(Link)`
+export const Button = styled.button`
   height: 2.5rem;
   width: 10rem;
   background-color: #f39c12;
@@ -13,11 +12,13 @@ export const Button = styled(Link)`
   font-weight: bold;
   font-size: 18px;
   border-radius: 5px;
+  cursor: pointer;
+  border: none;
 
   :hover {
     background-color: #000;
     color: #f39c12;
-    transition: .2s;
+    transition: 0.2s;
     height: 2.7rem;
     width: 11rem;
     border-radius: 20px;

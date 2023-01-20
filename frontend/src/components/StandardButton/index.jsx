@@ -1,5 +1,5 @@
 import { Button } from "./styles";
 
-export default function StandardButton({ to, text }) {
-  return <Button to={to}>{text}</Button>;
+export default function StandardButton({ text, type }) {
+  return <Button type={type}>{text}</Button>;
 }

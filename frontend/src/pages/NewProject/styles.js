@@ -10,7 +10,7 @@ export const Container = styled.div`
   padding-top: 4rem;
 `;
 
-export const Box = styled.div`
+export const Box = styled.form`
   min-height: 50%;
   max-height: 70%;
   width: 80%;
