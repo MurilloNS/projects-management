@@ -10,7 +10,7 @@ public interface ProjectService {
 
 	public Project updateProject(Long id, Project project);
 
-	public void deleteProject(Long id);
+	public void deleteProject(Long projectId, Long userId);
 
 	public List<Project> listProjectsByUser(Long userId);
 

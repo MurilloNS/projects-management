@@ -16,7 +16,7 @@ import br.com.projectsmanagement.services.ProjectService;
 public class ProjectController {
 	@Autowired
 	private ProjectService projectService;
-	
+
 	@GetMapping("/listar/{userId}")
 	public ResponseEntity<List<Project>> listProjectsByUser(@PathVariable Long userId) {
 		return ResponseEntity.ok(projectService.listProjectsByUser(userId));
@@ -26,7 +26,7 @@ public class ProjectController {
 	public ResponseEntity<Optional<Project>> getProjectById(@PathVariable Long id) {
 		return ResponseEntity.ok(projectService.getProjectById(id));
 	}
-	
+
 	@PostMapping("/{userId}/addproject")
 	public ResponseEntity<Project> assignProjectToUser(@PathVariable Long userId, @RequestBody Project project) {
 		return ResponseEntity.ok(projectService.assignProjectToUser(userId, project));
@@ -36,15 +36,15 @@ public class ProjectController {
 	public ResponseEntity<Project> updateProject(@PathVariable Long id, @RequestBody Project project) {
 		return ResponseEntity.ok(projectService.updateProject(id, project));
 	}
-	
+
 	@PutMapping("/finalizeproject/{projectId}")
 	public ResponseEntity<Project> removeProjectUser(@PathVariable Long projectId) {
 		return ResponseEntity.ok(projectService.finalizeProjectUser(projectId));
 	}
 
-	@DeleteMapping("/excluir/{id}")
-	public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
-		projectService.deleteProject(id);
+	@DeleteMapping("/excluir/{projectId}/{userId}")
+	public ResponseEntity<Void> deleteProject(@PathVariable Long projectId, @PathVariable Long userId) {
+		projectService.deleteProject(projectId, userId);
 		return ResponseEntity.noContent().build();
 	}
 }

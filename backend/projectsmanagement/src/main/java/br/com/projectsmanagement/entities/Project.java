@@ -72,4 +72,8 @@ public class Project {
 	public void addUser(User user) {
 		this.user = user;
 	}
+	
+	public void removeUser(User user) {
+		this.user = null;
+	}
 }

@@ -42,10 +42,12 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public void deleteProject(Long id) {
-		Project project = projectRepository.findById(id).get();
+	public void deleteProject(Long projectId, Long UserId) {
+		Project project = projectRepository.findById(projectId).get();
+		User user = userRepository.findById(UserId).get();
 		if (project.getFinalDate() != null) {
-			projectRepository.deleteById(id);
+			project.removeUser(user);
+			projectRepository.deleteById(projectId);
 		} else {
 			throw new NotFinalizedException("Você não pode deletar um projeto antes de finalizá-lo");
 		}
