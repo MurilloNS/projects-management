@@ -1,21 +1,13 @@
 package br.com.projectsmanagement.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -34,9 +26,9 @@ public class User implements UserDetails {
 	private String email;
 	private String password;
 	private LocalDate dateRegister;
-	@OneToMany
-	@JoinColumn(name = "id_user")
-	private List<Project> projects;
+	@OneToMany(mappedBy = "user")
+	// @JoinColumn(name = "id_user")
+	private List<Project> projects = new ArrayList<>();
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_paper", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "paper_id"))
 	private Set<Paper> papers = new HashSet<>();
@@ -100,14 +92,6 @@ public class User implements UserDetails {
 
 	public Set<Paper> getPapers() {
 		return papers;
-	}
-
-	public void addProject(Project projects) {
-		this.projects.add(projects);
-	}
-
-	public void removeProject(Project projects) {
-		this.projects.remove(projects);
 	}
 
 	public void addPaper(Paper papers) {

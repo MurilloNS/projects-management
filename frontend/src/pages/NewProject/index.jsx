@@ -36,7 +36,7 @@ export default function NewProject() {
 
   const saveProject = () => {
     http
-      .post(`/usuario/${localStorage.getItem("id")}/addproject`, project)
+      .post(`/projeto/${localStorage.getItem("id")}/addproject`, project)
       .then((response) => {
         Swal.fire({
           position: "center",

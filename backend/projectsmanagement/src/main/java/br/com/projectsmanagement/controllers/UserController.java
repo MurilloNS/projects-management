@@ -14,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.projectsmanagement.configurations.JwtUtil;
-import br.com.projectsmanagement.entities.Project;
 import br.com.projectsmanagement.entities.User;
 import br.com.projectsmanagement.services.UserService;
 
@@ -40,9 +39,9 @@ public class UserController {
 	public ResponseEntity<Optional<User>> getUserById(@PathVariable Long id) {
 		return ResponseEntity.ok(userService.getUserById(id));
 	}
-	
+
 	@GetMapping("/email/{email}")
-	public ResponseEntity<User> getIdByEmail(@PathVariable String email){
+	public ResponseEntity<User> getIdByEmail(@PathVariable String email) {
 		return ResponseEntity.ok(userService.getUserByEmail(email));
 	}
 
@@ -60,16 +59,6 @@ public class UserController {
 	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 		userService.deleteUser(id);
 		return ResponseEntity.noContent().build();
-	}
-
-	@PostMapping("/{id}/addproject")
-	public ResponseEntity<User> assignProjectToUser(@PathVariable Long id, @RequestBody Project project) {
-		return ResponseEntity.ok(userService.assignProjectToUser(id, project));
-	}
-
-	@PutMapping("/{userId}/removeproject/{projectId}")
-	public ResponseEntity<User> removeProjectUser(@PathVariable Long userId, @PathVariable Long projectId) {
-		return ResponseEntity.ok(userService.finalizeProjectUser(userId, projectId));
 	}
 
 	@PostMapping("/logar")

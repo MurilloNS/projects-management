@@ -11,13 +11,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.projectsmanagement.entities.Paper;
-import br.com.projectsmanagement.entities.Project;
 import br.com.projectsmanagement.entities.User;
 import br.com.projectsmanagement.exception.EmailExistException;
 import br.com.projectsmanagement.exception.EmailNotExistException;
 import br.com.projectsmanagement.exception.InvalidIdException;
 import br.com.projectsmanagement.repositories.PaperRepository;
-import br.com.projectsmanagement.repositories.ProjectRepository;
 import br.com.projectsmanagement.repositories.UserRepository;
 import br.com.projectsmanagement.services.UserService;
 
@@ -25,9 +23,6 @@ import br.com.projectsmanagement.services.UserService;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
-
-	@Autowired
-	private ProjectRepository projectRepository;
 
 	@Autowired
 	private PaperRepository paperRepository;
@@ -84,28 +79,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User assignProjectToUser(Long id, Project project) {
-		User user = userRepository.findById(id).get();
-		Project projectCreated = projectRepository.saveAndFlush(project);
-		user.addProject(projectCreated);
-		return userRepository.save(user);
-	}
-
-	@Override
-	public User finalizeProjectUser(Long userId, Long projectId) {
-		User user = userRepository.findById(userId).get();
-		Project project = projectRepository.findById(projectId).get();
-		project.setFinalDate(LocalDate.now());
-		return userRepository.save(user);
-	}
-
-	@Override
 	public User getUserByEmail(String email) {
 		User user = userRepository.findByEmail(email);
-		if(user == null) {
+		if (user == null) {
 			throw new EmailNotExistException("Esse email não existe!");
 		}
-		
+
 		return user;
 	}
 }

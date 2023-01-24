@@ -1,5 +1,6 @@
 package br.com.projectsmanagement.services.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -8,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.projectsmanagement.entities.Project;
+import br.com.projectsmanagement.entities.User;
 import br.com.projectsmanagement.exception.InvalidIdException;
 import br.com.projectsmanagement.exception.NotFinalizedException;
 import br.com.projectsmanagement.repositories.ProjectRepository;
+import br.com.projectsmanagement.repositories.UserRepository;
 import br.com.projectsmanagement.services.ProjectService;
 
 @Service
@@ -18,19 +21,12 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	private ProjectRepository projectRepository;
 
-	@Override
-	public List<Project> listAll() {
-		return projectRepository.findAll();
-	}
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public Optional<Project> getProjectById(Long id) {
 		return projectRepository.findById(id);
-	}
-
-	@Override
-	public Project registerProject(Project project) {
-		return projectRepository.saveAndFlush(project);
 	}
 
 	@Override
@@ -53,5 +49,24 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			throw new NotFinalizedException("Você não pode deletar um projeto antes de finalizá-lo");
 		}
+	}
+
+	@Override
+	public List<Project> listProjectsByUser(Long userId) {
+		return projectRepository.findProjectByUser(userId);
+	}
+
+	@Override
+	public Project assignProjectToUser(Long userId, Project project) {
+		User user = userRepository.findById(userId).get();
+		project.addUser(user);
+		return projectRepository.save(project);
+	}
+
+	@Override
+	public Project finalizeProjectUser(Long projectId) {
+		Project project = projectRepository.findById(projectId).get();
+		project.setFinalDate(LocalDate.now());
+		return projectRepository.save(project);
 	}
 }

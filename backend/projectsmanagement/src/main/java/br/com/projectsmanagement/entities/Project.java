@@ -15,6 +15,9 @@ public class Project {
 	private String description;
 	private LocalDate initialDate = LocalDate.now();
 	private LocalDate finalDate;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_user")
+	private User user;
 
 	public Project() {
 	}
@@ -64,5 +67,9 @@ public class Project {
 
 	public void setFinalDate(LocalDate finalDate) {
 		this.finalDate = finalDate;
+	}
+
+	public void addUser(User user) {
+		this.user = user;
 	}
 }

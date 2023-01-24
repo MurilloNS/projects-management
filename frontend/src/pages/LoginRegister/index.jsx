@@ -73,6 +73,11 @@ export default function LoginRegister() {
             showConfirmButton: false,
             timer: 1500,
           });
+          setUser({
+            name: "",
+            email: "",
+            password: "",
+          });
         })
         .catch((e) => {
           Swal.fire({
