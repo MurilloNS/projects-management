@@ -1,10 +1,10 @@
 <h1 align="center">Projects Manager</h1>
 <p align="center">Aplicação WEB que tem como objetivo ajudar os usuários gerenciar seus projetos</p>
 <p align="center">
- <a href="#">Objetivo</a> •
- <a href="#features">Features - Back-end</a> • 
- <a href="#roadmap">Features - Front-End</a> • 
- <a href="#tecnologias">🛠 Tecnologias</a> • 
+ <a href="#objetivo">Objetivo</a> •
+ <a href="#features---back-end">Features - Back-end</a> • 
+ <a href="#features---front-end">Features - Front-End</a> • 
+ <a href="#-tecnologias">🛠 Tecnologias</a> • 
 
 </p>
 <h4 align="center"> 
