@@ -1,9 +1,10 @@
 <h1 align="center">Projects Manager</h1>
 <p align="center">Aplicação WEB que tem como objetivo ajudar os usuários gerenciar seus projetos</p>
 <p align="center">
- <a href="#objetivo">Objetivo</a> •
- <a href="#roadmap">Features</a> • 
- <a href="#tecnologias">Tecnologias</a> • 
+ <a href="#">Objetivo</a> •
+ <a href="#features">Features - Back-end</a> • 
+ <a href="#roadmap">Features - Front-End</a> • 
+ <a href="#tecnologias">🛠 Tecnologias</a> • 
 
 </p>
 <h4 align="center"> 
@@ -43,4 +44,4 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [JWT](https://jwt.io/)
 - [Styled Components](https://styled-components.com/)
 - [Axios](https://axios-http.com/ptbr/docs/intro)
-- [MYSQL](https://www.mysql.com/)
+- [MySQL](https://www.mysql.com/)
