@@ -10,6 +10,9 @@
 	🚧  Em construção...  🚧
 </h4>
 
+### Objetivo
+<p>O objetivo desse projeto pessoal é possibilitar que os usuários gerenciem seus projetos, eles podem iniciar o projeto ficando com o status "Em Andamento", podem finalizá-lo ficando com o status "Concluído" e podem deletar o projeto, contudo a deleção só é permitida caso o projeto esteja encerrado. Os usuários podem se cadastrar e realizar o login, onde uma autenticação JWT Token é realizada. Também foram criados Testes Unitários com JUnit5 e Mockito para o CRUD de usuários, em breve também terá para o CRUD de projetos. Para consumir a API Rest utilizei o React.js com o Axios, também utilizei Styled Components para a estilização; contudo, o Front-end ainda está em desenvolvimento.</p>
+
 ### Features - Back-End
 
 - [x] CRUD de usuários
