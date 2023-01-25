@@ -1,5 +1,5 @@
 <h1 align="center">Projects Manager</h1>
-<p align="center">Aplicação WEB que tem como objetivo ajudar os usuários gerenciar seus projetos</p>
+<p align="center">Aplicação WEB que tem como objetivo ajudar os usuários gerenciar a seus projetos</p>
 <p align="center">
  <a href="#objetivo">Objetivo</a> •
  <a href="#features---back-end">Features - Back-end</a> • 
